@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -29,14 +26,17 @@ namespace MvvmLight1
             _recursionProtection.Remove(Thread.CurrentThread);
         }
 
-        public static readonly DependencyProperty DocumentXamlProperty = DependencyProperty.RegisterAttached(
+        public static readonly DependencyProperty DocumentXamlProperty = DependencyProperty.RegisterAttached
+            (
             "DocumentXaml",
             typeof(string),
             typeof(RichTextBoxHelper),
             new FrameworkPropertyMetadata(
                 "",
-                FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (obj, e) => {
+                FrameworkPropertyMetadataOptions.AffectsRender |                 
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                (obj, e) => 
+                {
                     if (_recursionProtection.Contains(Thread.CurrentThread))
                         return;
 

@@ -18,7 +18,7 @@ namespace MvvmLight1.ViewModel
             _title = dataItem.TitleDI;
             _dateTime = dataItem.TimeOfCreateDI;            
             _image = dataItem.ImageDI;
-            //_note = dataItem.NoteDI;
+            _note = dataItem.NoteDI;
         }
         public MyNote DataItem
         {

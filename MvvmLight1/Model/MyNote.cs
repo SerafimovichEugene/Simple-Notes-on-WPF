@@ -35,7 +35,7 @@ namespace MvvmLight1.Model
             TitleDI = title;
             TimeOfCreateDI = DateTime.Now;
             ImageDI = imageIndex;
-            NoteDI = string.Empty;            
+            NoteDI = null;            
         }
 
     }
