@@ -105,7 +105,7 @@
                            Text="{Binding SelectedDataItem.TimeOfCreateVM,
                                           UpdateSourceTrigger=PropertyChanged}"/>
                 <RichTextBox Name="richTextBox"
-                             local:RichTextBoxHelper.DocumentXaml="{Binding SelectedDataItem.NoteVM}"
+                             local:RichTextBoxHelper.DocumentXaml="{Binding SelectedDataItem.NoteVM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Height="auto"
                              >
                     <RichTextBox.Resources>

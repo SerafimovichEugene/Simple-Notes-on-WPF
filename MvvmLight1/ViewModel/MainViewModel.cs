@@ -54,8 +54,8 @@ namespace MvvmLight1.ViewModel
            
             _collection = new ObservableCollection<MyNoteViewModel>();
             
-            _collection.Add(new MyNoteViewModel(new MyNote("Type the header of Note", 0)));
-
+            _collection.Add(new MyNoteViewModel(new MyNote("Type the header of Note", 0)) );
+            
         }
         public void AddNote()
         {

@@ -33,39 +33,45 @@ namespace MvvmLight1
             typeof(RichTextBoxHelper),
             new FrameworkPropertyMetadata(
                 "",
-                FrameworkPropertyMetadataOptions.AffectsRender |                 
+                FrameworkPropertyMetadataOptions.AffectsRender |
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                (obj, e) => 
+                (obj, e) =>
                 {
                     if (_recursionProtection.Contains(Thread.CurrentThread))
                         return;
 
                     var richTextBox = (RichTextBox)obj;
 
-                // Parse the XAML to a document (or use XamlReader.Parse())
+                    // Parse the XAML to a document (or use XamlReader.Parse())
 
-                try
+                    try
                     {
                         var stream = new MemoryStream(Encoding.UTF8.GetBytes(GetDocumentXaml(richTextBox)));
                         var doc = (FlowDocument)XamlReader.Load(stream);
 
-                    // Set the document
-                    richTextBox.Document = doc;
+                        // Set the document
+                        richTextBox.Document = doc;
                     }
                     catch (Exception)
                     {
                         richTextBox.Document = new FlowDocument();
+                        //var rng = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
+                        //using (FileStream fs = new FileStream("../../fd.txt", FileMode.Open) )
+                        //{
+                        //    rng.Load(fs, DataFormats.Text);
+                        //}
+                        
                     }
 
-                // When the document changes update the source
-                richTextBox.TextChanged += (obj2, e2) =>
-                    {
-                        RichTextBox richTextBox2 = obj2 as RichTextBox;
-                        if (richTextBox2 != null)
-                        {
-                            SetDocumentXaml(richTextBox, XamlWriter.Save(richTextBox2.Document));
-                        }
-                    };
+                    // When the document changes update the source
+                    richTextBox.TextChanged += (obj2, e2) =>
+                         {
+                            RichTextBox richTextBox2 = obj2 as RichTextBox;
+                            if (richTextBox2 != null)
+                            {
+                                SetDocumentXaml(richTextBox, XamlWriter.Save(richTextBox2.Document));
+                            }
+                        };
                 }
             )
         );

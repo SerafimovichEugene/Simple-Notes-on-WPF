@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace MvvmLight1.Model
 {
@@ -35,7 +36,10 @@ namespace MvvmLight1.Model
             TitleDI = title;
             TimeOfCreateDI = DateTime.Now;
             ImageDI = imageIndex;
-            NoteDI = null;            
+
+            var stringBuilder = new StringBuilder("<FlowDocument PagePadding=\"5,0,5,0\" AllowDrop=\"True\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"><Paragraph>Hello</Paragraph><Paragraph>start you note here</Paragraph><Paragraph>enjoy ;)</Paragraph><Paragraph>enjoy ;)</Paragraph><Paragraph xml:space=\"preserve\" /></FlowDocument>");
+
+            NoteDI = stringBuilder.ToString();            
         }
 
     }
