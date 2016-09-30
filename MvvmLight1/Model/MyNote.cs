@@ -9,7 +9,8 @@ namespace MvvmLight1.Model
         private string _title;
         private DateTime _dateTime;
         private int _image;
-        private string _note;       
+        private string _note;     
+          
         public string TitleDI
         {
             get { return _title; }

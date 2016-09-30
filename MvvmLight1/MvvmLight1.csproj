@@ -94,6 +94,7 @@
     </ApplicationDefinition>
     <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="Model\MyNote.cs" />
+    <Compile Include="MyNotesContext.cs" />
     <Compile Include="RichTextBoxHelper.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MyNoteViewModel.cs" />
