@@ -124,6 +124,10 @@
                         Content="save" 
                         Width="75" Height="20"                    
                         Command="{Binding SaveCommand}"/>
+                <Button x:Name="Loadbutton" Content="Load"
+                        HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                        Width="75" Height="20"  
+                        Command="{Binding LoadCommand}"/>
 
             </StackPanel>
         </Grid>

@@ -11,23 +11,27 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml.Serialization;
+using System.Data.Entity;
+using System.Linq;
+using System.Windows;
+using System.Threading.Tasks;
 
 namespace MvvmLight1.ViewModel
 {
 
-   
+
     public class MainViewModel : ViewModelBase
     {
-        
-        public string path = "../../Path.bin";               
+
+        private static MyNotesContext context;
 
         private ObservableCollection<MyNoteViewModel> _collection;
-       
+
         private MyNoteViewModel _selectedDataItem;
-       
+
         public ICommand AddCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
-
+        public ICommand LoadCommand { get; private set; }
         public ObservableCollection<MyNoteViewModel> Collection
         {
             get { return _collection; }
@@ -45,58 +49,57 @@ namespace MvvmLight1.ViewModel
             }
             set { Set(ref _selectedDataItem, value); }
         }
-              
+
         public MainViewModel()
         {
-          
+
+
             AddCommand = new RelayCommand(AddNote);
-            SaveCommand = new RelayCommand(SaveCollection);            
-           
+            SaveCommand = new RelayCommand(SaveCollection);
+            //LoadCommand = new RelayCommand(LoadCollection);
+
             _collection = new ObservableCollection<MyNoteViewModel>();
-            
-            _collection.Add(new MyNoteViewModel(new MyNote("Type the header of Note", 0)) );
-            
+
+            var loadCollection = LoadCollection();
+
+            //_collection.Add(new MyNoteViewModel(new MyNote("Type the header of Note", 0)));
+
         }
         public void AddNote()
         {
-            _collection.Add(new MyNoteViewModel(new MyNote("Type the header of Note",1)));
+            _collection.Add(new MyNoteViewModel(new MyNote("Type the header of Note", 1)));
         }
-
-
-
         public void SaveCollection()
         {
-            //XmlSerializer formatter = new XmlSerializer(typeof(ObservableCollection<MyNoteViewModel>));
-            //using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
-            //{
-            //    formatter.Serialize(fs, Collection);                
-            //}
-            //MessageBox.Show("Successful");
-            //BinaryFormatter formatter = new BinaryFormatter();
-            //using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
-            //{
-            //    formatter.Serialize(fs, _collection);
-            //}
-            //MessageBox.Show("Serilized");
+            using (context = new MyNotesContext())
+            {
+                foreach (var item in _collection)
+                {
+                    context.MyNotes.Add(item.DataItem);
+                }
+                context.SaveChanges();
+            }
         }
-        public void LoadCollection()
+        private async Task LoadCollection()
         {
-            //XmlSerializer formatter = new XmlSerializer(typeof(ObservableCollection<MyNoteViewModel>));
-            //using (FileStream fs = new FileStream(path, FileMode.Open))
-            //{
-            //    _collection = new ObservableCollection<MyNoteViewModel>((ObservableCollection<MyNoteViewModel>)formatter.Deserialize(fs));
-            //}
-            //BinaryFormatter formatter = new BinaryFormatter();
-            //using (FileStream fs = new FileStream(path, FileMode.Open))
-            //{
-            //    _collection = new ObservableCollection<MyNoteViewModel>((ObservableCollection<MyNoteViewModel>)formatter.Deserialize(fs));
-            //}
+            using (context = new MyNotesContext())
+            {
+                //for (int i = 0; i < context.MyNotes.Count(); i++)
+                //{
+                //    Collection.Add(new MyNoteViewModel(context.MyNotes.)
+                //}
+                var tempList = await context.MyNotes.ToListAsync();
+                foreach (var item in tempList)
+                {
+                    Collection.Add(new MyNoteViewModel(item));
+                }
+            }
         }
-        ////public override void Cleanup()
-        ////{
-        ////    // Clean up if needed
+        public override void Cleanup()
+        {
+            // Clean up if needed
 
-        ////    base.Cleanup();
-        ////}
+            base.Cleanup();
+        }
     }
 }
