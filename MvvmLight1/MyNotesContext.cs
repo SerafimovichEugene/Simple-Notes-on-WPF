@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 
 namespace MvvmLight1.Model
 {
     public class MyNotesContext : DbContext
     {
-        public MyNotesContext() : base("DBConnection")
-        {
-
-        }
+        public MyNotesContext(string NameOrConnectionString) : base(NameOrConnectionString) { }
         public DbSet<MyNote> MyNotes { get; set; }
     }
     //public class MyNotesBase

@@ -128,6 +128,11 @@
                         HorizontalAlignment="Left" VerticalAlignment="Bottom"
                         Width="75" Height="20"  
                         Command="{Binding LoadCommand}"/>
+                <Button x:Name="find_DB" 
+                        HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                        Content="find DB"
+                        Width="75" Height="20"   
+                        Command="{Binding InitConnectionString}"/>
 
             </StackPanel>
         </Grid>

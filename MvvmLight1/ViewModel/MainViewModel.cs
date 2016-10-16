@@ -1,20 +1,14 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MvvmLight1.Model;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Xml.Serialization;
 using System.Data.Entity;
-using System.Linq;
-using System.Windows;
-using System.Threading.Tasks;
+using System;
+using System.IO;
+using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace MvvmLight1.ViewModel
 {
@@ -22,16 +16,16 @@ namespace MvvmLight1.ViewModel
 
     public class MainViewModel : ViewModelBase
     {
-
         private static MyNotesContext context;
+        private static string ConnectionString;
 
         private ObservableCollection<MyNoteViewModel> _collection;
 
         private MyNoteViewModel _selectedDataItem;
-
         public ICommand AddCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
         public ICommand LoadCommand { get; private set; }
+        public ICommand InitConnectionString { get; set; }
         public ObservableCollection<MyNoteViewModel> Collection
         {
             get { return _collection; }
@@ -52,54 +46,115 @@ namespace MvvmLight1.ViewModel
 
         public MainViewModel()
         {
+            try
+            {
+                ConnectionString = File.ReadAllText("../../ConnectionString.txt");
+            }
 
-
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+            }
             AddCommand = new RelayCommand(AddNote);
             SaveCommand = new RelayCommand(SaveCollection);
-            //LoadCommand = new RelayCommand(LoadCollection);
-
+            LoadCommand = new RelayCommand(LoadCollection);
+            InitConnectionString = new RelayCommand(InitConnetionString);
             _collection = new ObservableCollection<MyNoteViewModel>();
 
-            var loadCollection = LoadCollection();
 
-            //_collection.Add(new MyNoteViewModel(new MyNote("Type the header of Note", 0)));
+            if (ConnectionString != null)
+            {
+                context = new MyNotesContext(ConnectionString);
+                LoadCollection();
+            }
 
+
+        }
+        private void SaveConnectionString()
+        {
+            File.WriteAllText("../../ConnectionString.txt", ConnectionString);
+        }
+        private void LoadConnectionString()
+        {
+            ConnectionString = File.ReadAllText("../../ConnectionString.txt");
         }
         public void AddNote()
         {
-            _collection.Add(new MyNoteViewModel(new MyNote("Type the header of Note", 1)));
-        }
-        public void SaveCollection()
-        {
-            using (context = new MyNotesContext())
+            MyNote myNote = new MyNote("Type the header of Note", 1);
+            _collection.Add(new MyNoteViewModel(myNote));
+            using (context = new MyNotesContext(ConnectionString))
             {
-                foreach (var item in _collection)
-                {
-                    context.MyNotes.Add(item.DataItem);
-                }
+                context.MyNotes.Add(myNote);                
                 context.SaveChanges();
             }
         }
-        private async Task LoadCollection()
+
+
+        public void SaveCollection()
         {
-            using (context = new MyNotesContext())
+            using (context = new MyNotesContext(ConnectionString))
             {
-                //for (int i = 0; i < context.MyNotes.Count(); i++)
-                //{
-                //    Collection.Add(new MyNoteViewModel(context.MyNotes.)
-                //}
-                var tempList = await context.MyNotes.ToListAsync();
-                foreach (var item in tempList)
+
+                foreach (var item in _collection)
                 {
-                    Collection.Add(new MyNoteViewModel(item));
+                    context.MyNotes.Attach(item.DataItem);
+                    context.Entry(item.DataItem).State = EntityState.Modified;
                 }
+               
+                context.SaveChanges();
             }
         }
+        private async void LoadCollection()
+        {
+            if (ConnectionString != null)
+            {
+                using (context = new MyNotesContext(ConnectionString))
+                {
+                    var tempList = await context.MyNotes.ToListAsync();
+                    foreach (var item in tempList)
+                    {
+                        Collection.Add(new MyNoteViewModel(item));
+                    }
+                }
+            }
+            else if (ConnectionString == null || ConnectionString == "")
+            {
+                System.Windows.MessageBox.Show("MyNote DataBase is not initialized");
+            }
+
+        }
+        public void InitConnetionString()
+        {
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+            {
+                DialogResult res = fbd.ShowDialog();
+                if (res == DialogResult.OK)
+                {
+                    ConnectionString = fbd.SelectedPath + "MyNoteDB.sdf";
+                    System.Windows.MessageBox.Show(ConnectionString);
+
+                    SaveConnectionString();
+                }
+
+            }
+        }
+        public string SourceDb()
+        {
+            using (OpenFileDialog opd = new OpenFileDialog())
+            {
+                opd.ShowDialog();
+                string path = Path.GetDirectoryName(opd.FileName) + opd.FileName;
+                return path;
+            }
+        }
+
+
         public override void Cleanup()
         {
             // Clean up if needed
 
             base.Cleanup();
         }
+
     }
 }
