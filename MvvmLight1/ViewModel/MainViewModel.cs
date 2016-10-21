@@ -9,6 +9,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace MvvmLight1.ViewModel
 {
@@ -50,7 +51,6 @@ namespace MvvmLight1.ViewModel
             {
                 ConnectionString = File.ReadAllText("../../ConnectionString.txt");
             }
-
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show(ex.Message);
@@ -60,60 +60,79 @@ namespace MvvmLight1.ViewModel
             LoadCommand = new RelayCommand(LoadCollection);
             InitConnectionString = new RelayCommand(InitConnetionString);
             _collection = new ObservableCollection<MyNoteViewModel>();
-
-
             if (ConnectionString != null)
             {
                 context = new MyNotesContext(ConnectionString);
                 LoadCollection();
             }
-
-
         }
+
         private void SaveConnectionString()
         {
             File.WriteAllText("../../ConnectionString.txt", ConnectionString);
         }
+
         private void LoadConnectionString()
         {
             ConnectionString = File.ReadAllText("../../ConnectionString.txt");
         }
-        public void AddNote()
+
+        public async void AddNote()
         {
             MyNote myNote = new MyNote("Type the header of Note", 1);
-            _collection.Add(new MyNoteViewModel(myNote));
-            using (context = new MyNotesContext(ConnectionString))
+            try
             {
-                context.MyNotes.Add(myNote);                
-                context.SaveChanges();
+                _collection.Add(new MyNoteViewModel(myNote));
+                using (context = new MyNotesContext(ConnectionString))
+                {
+                    context.MyNotes.Add(myNote);
+                    int x = await context.SaveChangesAsync();
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
 
         public void SaveCollection()
         {
-            using (context = new MyNotesContext(ConnectionString))
+            context = new MyNotesContext(ConnectionString);
+            try
             {
-
                 foreach (var item in _collection)
                 {
                     context.MyNotes.Attach(item.DataItem);
                     context.Entry(item.DataItem).State = EntityState.Modified;
                 }
-               
-                context.SaveChanges();
+                SaveForContext(context);
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
+
         private async void LoadCollection()
         {
             if (ConnectionString != null)
             {
                 using (context = new MyNotesContext(ConnectionString))
                 {
-                    var tempList = await context.MyNotes.ToListAsync();
-                    foreach (var item in tempList)
+                    try
                     {
-                        Collection.Add(new MyNoteViewModel(item));
+                        var tempList = await context.MyNotes.ToListAsync();
+                        foreach (var item in tempList)
+                        {
+                            Collection.Add(new MyNoteViewModel(item));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
                     }
                 }
             }
@@ -138,16 +157,21 @@ namespace MvvmLight1.ViewModel
 
             }
         }
-        public string SourceDb()
-        {
-            using (OpenFileDialog opd = new OpenFileDialog())
-            {
-                opd.ShowDialog();
-                string path = Path.GetDirectoryName(opd.FileName) + opd.FileName;
-                return path;
-            }
-        }
+        //public string SourceDb()
+        //{
+        //    using (OpenFileDialog opd = new OpenFileDialog())
+        //    {
+        //        opd.ShowDialog();
+        //        string path = Path.GetDirectoryName(opd.FileName) + opd.FileName;
+        //        return path;
+        //    }
+        //}
 
+        public async void SaveForContext(MyNotesContext obj)
+        {
+            await obj.SaveChangesAsync();
+            obj.Dispose();
+        }
 
         public override void Cleanup()
         {
