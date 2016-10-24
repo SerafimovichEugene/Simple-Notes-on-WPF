@@ -47,35 +47,41 @@ namespace MvvmLight1.ViewModel
 
         public MainViewModel()
         {
-            try
-            {
+            //try
+            //{
                 ConnectionString = File.ReadAllText("../../ConnectionString.txt");
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show(ex.Message);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
             AddCommand = new RelayCommand(AddNote);
             SaveCommand = new RelayCommand(SaveCollection);
             LoadCommand = new RelayCommand(LoadCollection);
             InitConnectionString = new RelayCommand(InitConnetionString);
             _collection = new ObservableCollection<MyNoteViewModel>();
-            if (ConnectionString != null)
+
+            if (ConnectionString == null || ConnectionString == "")
             {
-                context = new MyNotesContext(ConnectionString);
+                ConnectionString = "../../MyNoteDB.sdf";
+                File.WriteAllText("../../ConnectionString.txt", ConnectionString);
+                LoadCollection();
+            }
+            if (ConnectionString != null && ConnectionString != "")
+            {
                 LoadCollection();
             }
         }
 
-        private void SaveConnectionString()
-        {
-            File.WriteAllText("../../ConnectionString.txt", ConnectionString);
-        }
+        //private void SaveConnectionString()
+        //{
+        //    File.WriteAllText("../../ConnectionString.txt", ConnectionString);
+        //}
 
-        private void LoadConnectionString()
-        {
-            ConnectionString = File.ReadAllText("../../ConnectionString.txt");
-        }
+        //private void LoadConnectionString()
+        //{
+        //    ConnectionString = File.ReadAllText("../../ConnectionString.txt");
+        //}
 
         public async void AddNote()
         {
@@ -97,7 +103,7 @@ namespace MvvmLight1.ViewModel
         }
 
 
-        public void SaveCollection()
+        public async void SaveCollection()
         {
             context = new MyNotesContext(ConnectionString);
             try
@@ -107,7 +113,7 @@ namespace MvvmLight1.ViewModel
                     context.MyNotes.Attach(item.DataItem);
                     context.Entry(item.DataItem).State = EntityState.Modified;
                 }
-                SaveForContext(context);
+                int x = await context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -150,9 +156,8 @@ namespace MvvmLight1.ViewModel
                 if (res == DialogResult.OK)
                 {
                     ConnectionString = fbd.SelectedPath + "MyNoteDB.sdf";
-                    System.Windows.MessageBox.Show(ConnectionString);
-
-                    SaveConnectionString();
+                    File.WriteAllText("../../ConnectionString.txt", ConnectionString);
+                    MessageBox.Show(ConnectionString);
                 }
 
             }
@@ -167,16 +172,15 @@ namespace MvvmLight1.ViewModel
         //    }
         //}
 
-        public async void SaveForContext(MyNotesContext obj)
-        {
-            await obj.SaveChangesAsync();
-            obj.Dispose();
-        }
+        //public async void SaveForContext(MyNotesContext obj)
+        //{
+        //    await obj.SaveChangesAsync();
+        //    obj.Dispose();
+        //}
 
         public override void Cleanup()
         {
-            // Clean up if needed
-
+           
             base.Cleanup();
         }
 

@@ -53,16 +53,17 @@
                      Grid.Column="0"                   
                      HorizontalAlignment="Stretch" 
                      VerticalAlignment="Stretch"
+                     HorizontalContentAlignment="Stretch"
                      ItemsSource="{Binding Collection}"
                      SelectionMode="Single"
                      SelectedItem="{Binding SelectedDataItem, Mode=TwoWay}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
+                        <DockPanel Background="LightGreen">
                             <ComboBox SelectedIndex="{Binding ImageVM, Mode=TwoWay, 
-                                                              UpdateSourceTrigger=PropertyChanged}"
-                                      
+                                                              UpdateSourceTrigger=PropertyChanged}"                                      
                                       Name="cmbBox1"
+                                      HorizontalAlignment="Left"
                                       >
                                 <ComboBox.Resources>
                                     <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">0</sys:Double>
@@ -70,15 +71,27 @@
                                 <Image Source="/MvvmLight1;component/Images/Heart.gif"/>
                                 <Image Source="/MvvmLight1;component/Images/Apply.gif"/>
                                 <Image Source="/MvvmLight1;component/Images/Alert.gif"/>
-
                             </ComboBox>
-
                             <!--<Image Source="{Binding ImageVM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></Image>-->
-                            <TextBlock Text="{Binding TitleVM, UpdateSourceTrigger=PropertyChanged}"/>
-
-                        </StackPanel>
+                            <TextBlock Text="{Binding TitleVM, UpdateSourceTrigger=PropertyChanged}"
+                                       HorizontalAlignment="Left"/>
+                            <Button Name="DeleteNote" 
+                                    HorizontalAlignment="Right" VerticalAlignment="Stretch"
+                                    Width="20" Height="20"
+                                    Content="X"                                     
+                                    >
+                               
+                            </Button>
+                        </DockPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
+                
+                <!--<ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>-->
+                
             </ListBox>
 
 
