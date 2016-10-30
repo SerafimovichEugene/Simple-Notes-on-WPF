@@ -18,7 +18,16 @@ namespace MvvmLight1.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private static MyNotesContext context;
-        private static string ConnectionString;
+
+        private static string connectionString;
+        public string ConnectionString
+        {
+            get { return connectionString; }
+            set
+            {
+                Set(ref connectionString, value);
+            }
+        }
 
         private ObservableCollection<MyNoteViewModel> _collection;
 
@@ -26,7 +35,7 @@ namespace MvvmLight1.ViewModel
         public ICommand AddCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
         public ICommand LoadCommand { get; private set; }
-        public ICommand InitConnectionString { get; set; }
+        public ICommand InitConnectionString { get; private set; }
         public ObservableCollection<MyNoteViewModel> Collection
         {
             get { return _collection; }
@@ -47,25 +56,24 @@ namespace MvvmLight1.ViewModel
 
         public MainViewModel()
         {
-            //try
-            //{
-                ConnectionString = File.ReadAllText("../../ConnectionString.txt");
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
+            //string foo = global::MvvmLight1.Properties.Resources.ConnectionString;  //as example
+            
+
+            ConnectionString = File.ReadAllText(@"ConnectionStringFile.txt");
+            MessageBox.Show(ConnectionString);
             AddCommand = new RelayCommand(AddNote);
             SaveCommand = new RelayCommand(SaveCollection);
             LoadCommand = new RelayCommand(LoadCollection);
-            InitConnectionString = new RelayCommand(InitConnetionString);
+            //InitConnectionString = new RelayCommand(InitConnetionString);
+            InitConnectionString = new RelayCommand(SourceDb);           
+
             _collection = new ObservableCollection<MyNoteViewModel>();
 
             if (ConnectionString == null || ConnectionString == "")
             {
-                ConnectionString = "../../MyNoteDB.sdf";
-                File.WriteAllText("../../ConnectionString.txt", ConnectionString);
-                LoadCollection();
+                ConnectionString = "MyNoteDB.sdf";
+                File.WriteAllText(@"ConnectionStringFile.txt", ConnectionString);
+                //LoadCollection();
             }
             if (ConnectionString != null && ConnectionString != "")
             {
@@ -156,21 +164,26 @@ namespace MvvmLight1.ViewModel
                 if (res == DialogResult.OK)
                 {
                     ConnectionString = fbd.SelectedPath + "MyNoteDB.sdf";
-                    File.WriteAllText("../../ConnectionString.txt", ConnectionString);
-                    MessageBox.Show(ConnectionString);
+                    File.WriteAllText(@"ConnectionStringFile.txt", ConnectionString);
+                    MessageBox.Show(connectionString);
                 }
 
             }
         }
-        //public string SourceDb()
-        //{
-        //    using (OpenFileDialog opd = new OpenFileDialog())
-        //    {
-        //        opd.ShowDialog();
-        //        string path = Path.GetDirectoryName(opd.FileName) + opd.FileName;
-        //        return path;
-        //    }
-        //}
+        public void SourceDb()
+        {
+            using (OpenFileDialog opd = new OpenFileDialog())
+            {
+                DialogResult res = opd.ShowDialog();
+                if(res == DialogResult.OK)
+                {
+                    string path = opd.FileName;
+                    MessageBox.Show(path);
+                    //return path;
+                }
+                //return null;
+            }
+        }
 
         //public async void SaveForContext(MyNotesContext obj)
         //{
@@ -180,7 +193,7 @@ namespace MvvmLight1.ViewModel
 
         public override void Cleanup()
         {
-           
+
             base.Cleanup();
         }
 

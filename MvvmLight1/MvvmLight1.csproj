@@ -15,7 +15,7 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>D:\Почта\dep\</PublishUrl>
+    <PublishUrl>C:\Users\Evgen\Desktop\1\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -26,11 +26,11 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>false</MapFileExtensions>
     <TargetCulture>ru</TargetCulture>
-    <ProductName>суперБлокнот</ProductName>
-    <PublisherName>ЖекаКорпарейшен</PublisherName>
+    <ProductName>MyNotes</ProductName>
+    <PublisherName>EvgeshaCorp</PublisherName>
     <AutorunEnabled>true</AutorunEnabled>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationRevision>13</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -199,6 +199,11 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ConnectionStringFile.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

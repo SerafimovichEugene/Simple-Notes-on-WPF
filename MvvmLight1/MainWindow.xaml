@@ -26,18 +26,17 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="23" />
             <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
         <Menu HorizontalAlignment="Stretch" Grid.Row="0"
               VerticalAlignment="Stretch" 
-              BorderBrush="Black" BorderThickness="2"
-              >
-
+              BorderBrush="Black" BorderThickness="2">
             <MenuItem Header="_Skin" >
                 <MenuItem Header="_Skin1" />
                 <MenuItem Header="_Skin2" />
                 <MenuItem Header="_DefaultSkin"/>
-                <Separator />
+                <Separator/>
                 <MenuItem Header="_Exit" />
             </MenuItem>
         </Menu>
@@ -71,30 +70,19 @@
                                 <Image Source="/MvvmLight1;component/Images/Heart.gif"/>
                                 <Image Source="/MvvmLight1;component/Images/Apply.gif"/>
                                 <Image Source="/MvvmLight1;component/Images/Alert.gif"/>
-                            </ComboBox>
-                            <!--<Image Source="{Binding ImageVM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></Image>-->
+                            </ComboBox>                            
                             <TextBlock Text="{Binding TitleVM, UpdateSourceTrigger=PropertyChanged}"
                                        HorizontalAlignment="Left"/>
                             <Button Name="DeleteNote" 
                                     HorizontalAlignment="Right" VerticalAlignment="Stretch"
                                     Width="20" Height="20"
-                                    Content="X"                                     
-                                    >
-                               
+                                    Content="X">                               
                             </Button>
                         </DockPanel>
                     </DataTemplate>
-                </ListBox.ItemTemplate>
-                
-                <!--<ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
-                    </Style>
-                </ListBox.ItemContainerStyle>-->
-                
+                </ListBox.ItemTemplate>        
             </ListBox>
-
-
+            
             <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="8">
                 <GridSplitter.Template>
                     <ControlTemplate TargetType="{x:Type GridSplitter}">
@@ -149,6 +137,11 @@
 
             </StackPanel>
         </Grid>
+
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="2">
+            <TextBlock Text="{Binding connectionString}" />
+        </StackPanel>
 
     </Grid>
 </Window>
