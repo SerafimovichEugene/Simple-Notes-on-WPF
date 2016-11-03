@@ -46,11 +46,15 @@ namespace MvvmLight1
 
                     try
                     {
-                        var stream = new MemoryStream(Encoding.UTF8.GetBytes(GetDocumentXaml(richTextBox)));
-                        var doc = (FlowDocument)XamlReader.Load(stream);
 
-                        // Set the document
-                        richTextBox.Document = doc;
+                        using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(GetDocumentXaml(richTextBox))))
+                        {
+                            var doc = XamlReader.Load(stream) as FlowDocument;
+
+                            // Set the document
+                            richTextBox.Document = doc;
+                        } 
+                       
                     }
                     catch (Exception)
                     {

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
+
 namespace MvvmLight1.ViewModel
 {
 
@@ -20,22 +21,27 @@ namespace MvvmLight1.ViewModel
         private static MyNotesContext context;
 
         private static string connectionString;
-        public string ConnectionString
-        {
-            get { return connectionString; }
-            set
-            {
-                Set(ref connectionString, value);
-            }
-        }
+        
 
         private ObservableCollection<MyNoteViewModel> _collection;
 
         private MyNoteViewModel _selectedDataItem;
+        private int _selectedIndex;
+        private bool _isVisible;
         public ICommand AddCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
         public ICommand LoadCommand { get; private set; }
         public ICommand InitConnectionString { get; private set; }
+        public ICommand DeleteNoteCommand { get; private set; }
+
+        public int SelectedIndex
+        {
+            get { return _selectedIndex; }
+            set
+            {
+                Set(ref _selectedIndex, value);
+            }
+        }
         public ObservableCollection<MyNoteViewModel> Collection
         {
             get { return _collection; }
@@ -51,21 +57,42 @@ namespace MvvmLight1.ViewModel
                 }
                 else return null;
             }
-            set { Set(ref _selectedDataItem, value); }
+            set
+            {
+                Set(ref _selectedDataItem, value);
+                IsVisible = true;
+            }
+        }
+        public string ConnectionString
+        {
+            get { return connectionString; }
+            set
+            {
+                Set(ref connectionString, value);
+            }
+        }
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            set
+            {
+                Set(ref _isVisible, value);
+            }
         }
 
         public MainViewModel()
         {
             //string foo = global::MvvmLight1.Properties.Resources.ConnectionString;  //as example
-            
+
 
             ConnectionString = File.ReadAllText(@"ConnectionStringFile.txt");
             MessageBox.Show(ConnectionString);
             AddCommand = new RelayCommand(AddNote);
             SaveCommand = new RelayCommand(SaveCollection);
             LoadCommand = new RelayCommand(LoadCollection);
-            //InitConnectionString = new RelayCommand(InitConnetionString);
-            InitConnectionString = new RelayCommand(SourceDb);           
+            InitConnectionString = new RelayCommand(SourceDb);
+            DeleteNoteCommand = new RelayCommand(DeleteNote);
+            _isVisible = false;
 
             _collection = new ObservableCollection<MyNoteViewModel>();
 
@@ -80,16 +107,6 @@ namespace MvvmLight1.ViewModel
                 LoadCollection();
             }
         }
-
-        //private void SaveConnectionString()
-        //{
-        //    File.WriteAllText("../../ConnectionString.txt", ConnectionString);
-        //}
-
-        //private void LoadConnectionString()
-        //{
-        //    ConnectionString = File.ReadAllText("../../ConnectionString.txt");
-        //}
 
         public async void AddNote()
         {
@@ -107,9 +124,7 @@ namespace MvvmLight1.ViewModel
             {
                 MessageBox.Show(ex.Message);
             }
-
         }
-
 
         public async void SaveCollection()
         {
@@ -175,25 +190,32 @@ namespace MvvmLight1.ViewModel
             using (OpenFileDialog opd = new OpenFileDialog())
             {
                 DialogResult res = opd.ShowDialog();
-                if(res == DialogResult.OK)
+                if (res == DialogResult.OK)
                 {
                     string path = opd.FileName;
                     MessageBox.Show(path);
-                    //return path;
                 }
-                //return null;
+
             }
         }
 
-        //public async void SaveForContext(MyNotesContext obj)
-        //{
-        //    await obj.SaveChangesAsync();
-        //    obj.Dispose();
-        //}
+        public void DeleteNote()
+        {
+            try
+            {
+                Collection.RemoveAt(SelectedIndex);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
+
 
         public override void Cleanup()
         {
-
             base.Cleanup();
         }
 

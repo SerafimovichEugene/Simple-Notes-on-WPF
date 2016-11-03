@@ -13,16 +13,26 @@
         Title="MVVM Light Application"
         DataContext="{Binding MainViewModel, Source={StaticResource Locator}}">
 
-    <Window.Resources>
+    <Window.Resources>        
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Skins/MainSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="Button">
+                <Setter Property="Visibility" Value="Visible"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsVisible}" >
+                        <Setter Property="Visibility" Value="Visible"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
+        
     </Window.Resources>
 
     <Grid x:Name="LayoutRoot">
-
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="23" />
             <RowDefinition Height="*"/>
@@ -55,7 +65,8 @@
                      HorizontalContentAlignment="Stretch"
                      ItemsSource="{Binding Collection}"
                      SelectionMode="Single"
-                     SelectedItem="{Binding SelectedDataItem, Mode=TwoWay}">
+                     SelectedItem="{Binding SelectedDataItem, Mode=TwoWay}"
+                     SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <DockPanel Background="LightGreen">
@@ -73,10 +84,12 @@
                             </ComboBox>                            
                             <TextBlock Text="{Binding TitleVM, UpdateSourceTrigger=PropertyChanged}"
                                        HorizontalAlignment="Left"/>
+
                             <Button Name="DeleteNote" 
                                     HorizontalAlignment="Right" VerticalAlignment="Stretch"
                                     Width="20" Height="20"
-                                    Content="X">                               
+                                    Content="X"                                    
+                                    Command="{Binding DataContext.DeleteNoteCommand, RelativeSource={RelativeSource AncestorType=Window}}">                                                               
                             </Button>
                         </DockPanel>
                     </DataTemplate>
@@ -134,6 +147,7 @@
                         Content="find DB"
                         Width="75" Height="20"   
                         Command="{Binding InitConnectionString}"/>
+                <Button x:Name="button" Content="Button"/>
 
             </StackPanel>
         </Grid>
