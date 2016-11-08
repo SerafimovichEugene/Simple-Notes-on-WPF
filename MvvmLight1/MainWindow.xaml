@@ -19,14 +19,17 @@
                 <ResourceDictionary Source="Skins/MainSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <Style TargetType="Button">
-                <Setter Property="Visibility" Value="Visible"/>
+            <!--<Style x:Key="MyButtonStyle" TargetType="Button">
+                --><!--<Setter Property="Visibility" Value="Collapsed"/>--><!--
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding IsVisible}" >
+                    <DataTrigger Binding="{Binding IsVisible}" Value="True" >
                         <Setter Property="Visibility" Value="Visible"/>
                     </DataTrigger>
+                    <DataTrigger Binding="{Binding IsVisible}" Value="False" >
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </DataTrigger>
                 </Style.Triggers>
-            </Style>
+            </Style>-->
         </ResourceDictionary>
         
     </Window.Resources>
@@ -84,12 +87,40 @@
                             </ComboBox>                            
                             <TextBlock Text="{Binding TitleVM, UpdateSourceTrigger=PropertyChanged}"
                                        HorizontalAlignment="Left"/>
-
-                            <Button Name="DeleteNote" 
+                            
+                            <!--<ContentControl Content="{Binding CurrentListHasPendingChanges}">
+                                <ContentControl.ContentTemplate>
+                                    <DataTemplate>
+                                        <Image x:Name="img" Source="..\Images\List_16.png" Margin="0,0,5,0" Visibility="Hidden" />
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding}" Value="False">
+                                                <Setter Property="Image.Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </ContentControl.ContentTemplate>
+                            </ContentControl>-->
+                            
+                            <Button Name="DeleteNote"  
+                                    
                                     HorizontalAlignment="Right" VerticalAlignment="Stretch"
                                     Width="20" Height="20"
                                     Content="X"                                    
-                                    Command="{Binding DataContext.DeleteNoteCommand, RelativeSource={RelativeSource AncestorType=Window}}">                                                               
+                                    Command="{Binding DataContext.DeleteNoteCommand, RelativeSource={RelativeSource AncestorType=Window}}">
+
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsVisible}" Value="True" >
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsVisible}" Value="False" >
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                                
                             </Button>
                         </DockPanel>
                     </DataTemplate>

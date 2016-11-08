@@ -12,6 +12,9 @@ namespace MvvmLight1.ViewModel
         private DateTime _dateTime;
         private int _image;
         private string _note;
+
+        private bool _isVisible;
+
         public MyNoteViewModel(MyNote dataItem)
         {
             _dataItem = dataItem;
@@ -19,6 +22,8 @@ namespace MvvmLight1.ViewModel
             _dateTime = dataItem.TimeOfCreateDI;            
             _image = dataItem.ImageDI;
             _note = dataItem.NoteDI;
+
+            IsVisible = false;
         }
         public MyNote DataItem
         {
@@ -63,9 +68,15 @@ namespace MvvmLight1.ViewModel
             get { return _dateTime; }
             
         }
-        
 
-        
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            set
+            {
+                Set(ref _isVisible, value);
+            }
+        }
     }
 }
 

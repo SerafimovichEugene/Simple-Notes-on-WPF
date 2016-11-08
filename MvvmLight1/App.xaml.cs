@@ -10,7 +10,7 @@ namespace MvvmLight1
     {
         static App()
         {
-            DispatcherHelper.Initialize();
+            DispatcherHelper.Initialize();            
         }
     }
 }
