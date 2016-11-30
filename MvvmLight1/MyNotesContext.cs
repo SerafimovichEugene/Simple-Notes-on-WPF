@@ -6,14 +6,5 @@ namespace MvvmLight1.Model
     {     
         public MyNotesContext(string NameOrConnectionString) : base(NameOrConnectionString) { }
         public DbSet<MyNote> MyNotes { get; set; }
-    }
-    //public class MyNotesBase
-    //{    
-    //    public int MyNotesBaseId { get; set; }
-    //    public string Title { get; set; }
-    //    public DateTime DateTime { get; set; }
-    //    public int ImageIndex { get; set; }
-    //    public string Note { get; set; }
-
-    //}
+    }   
 }

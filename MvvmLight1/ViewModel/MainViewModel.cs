@@ -76,7 +76,6 @@ namespace MvvmLight1.ViewModel
         {
             //string foo = global::MvvmLight1.Properties.Resources.ConnectionString;  //as example
 
-
             ConnectionString = File.ReadAllText(@"ConnectionStringFile.txt");
             MessageBox.Show(ConnectionString);
             AddCommand = new RelayCommand(AddNote);
