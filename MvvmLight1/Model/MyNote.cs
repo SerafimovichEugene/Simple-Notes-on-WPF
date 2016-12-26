@@ -4,16 +4,16 @@ using System.Text;
 
 namespace MvvmLight1.Model
 {
-   
+
     public class MyNote
     {
         private string _title;
         private DateTime _dateTime;
         private int _image;
-        private string _note; 
-            
+        private string _note;
+
         [Key]
-        public int MyNoteId { get; set; }  
+        public int MyNoteId { get; set; }
         public string TitleDI
         {
             get { return _title; }
@@ -34,16 +34,16 @@ namespace MvvmLight1.Model
             get { return _note; }
             set { _note = value; }
         }
-    
+
         public MyNote(string title, int imageIndex)
         {
             TitleDI = title;
             TimeOfCreateDI = DateTime.Now;
             ImageDI = imageIndex;
 
-            var stringBuilder = new StringBuilder("<FlowDocument xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"><Paragraph>Hello</Paragraph><Paragraph>start you note here</Paragraph><Paragraph>enjoy ;)</Paragraph><Paragraph>enjoy ;)</Paragraph></FlowDocument>");
+            var stringBuilder = new StringBuilder("<FlowDocument xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"><Paragraph>Hello</Paragraph><Paragraph>start you note here</Paragraph><Paragraph>enjoy;)</Paragraph></FlowDocument>");
 
-            NoteDI = stringBuilder.ToString();            
+            NoteDI = stringBuilder.ToString();
         }
         public MyNote() { }
 

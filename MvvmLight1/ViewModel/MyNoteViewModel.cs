@@ -19,7 +19,7 @@ namespace MvvmLight1.ViewModel
         {
             _dataItem = dataItem;
             _title = dataItem.TitleDI;
-            _dateTime = dataItem.TimeOfCreateDI;            
+            _dateTime = dataItem.TimeOfCreateDI;
             _image = dataItem.ImageDI;
             _note = dataItem.NoteDI;
 
@@ -39,7 +39,7 @@ namespace MvvmLight1.ViewModel
             set
             {
                 _dataItem.TitleDI = value;
-                Set(ref _title, value);                               
+                Set(ref _title, value);
             }
         }
 
@@ -54,7 +54,7 @@ namespace MvvmLight1.ViewModel
         }
         public string NoteVM
         {
-           
+
             get { return _note; }
             set
             {
@@ -66,7 +66,7 @@ namespace MvvmLight1.ViewModel
         public DateTime TimeOfCreateVM
         {
             get { return _dateTime; }
-            
+
         }
 
         public bool IsVisible

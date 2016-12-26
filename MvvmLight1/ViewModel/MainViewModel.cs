@@ -21,13 +21,13 @@ namespace MvvmLight1.ViewModel
         private static MyNotesContext context;
 
         private static string connectionString;
-        
+
 
         private ObservableCollection<MyNoteViewModel> _collection;
 
         private MyNoteViewModel _selectedDataItem;
         private int _selectedIndex;
-        
+
         public ICommand AddCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
         public ICommand LoadCommand { get; private set; }
@@ -70,7 +70,7 @@ namespace MvvmLight1.ViewModel
             {
                 Set(ref connectionString, value);
             }
-        }        
+        }
 
         public MainViewModel()
         {
@@ -83,7 +83,7 @@ namespace MvvmLight1.ViewModel
             LoadCommand = new RelayCommand(LoadCollection);
             InitConnectionString = new RelayCommand(SourceDb);
             DeleteNoteCommand = new RelayCommand(DeleteNote);
-           
+
 
             _collection = new ObservableCollection<MyNoteViewModel>();
 
