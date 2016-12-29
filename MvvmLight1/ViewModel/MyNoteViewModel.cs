@@ -1,6 +1,6 @@
 ﻿using MvvmLight1.Model;
 using System;
-using GalaSoft.MvvmLight;
+
 using System.ComponentModel;
 
 namespace MvvmLight1.ViewModel

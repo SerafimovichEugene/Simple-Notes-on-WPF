@@ -9,7 +9,7 @@ namespace Models
         private string _title;        
         private int _status;
 
-        protected Note(string title, int status)
+        public Note(string title, int status)
         {
             _guid = Guid.NewGuid();
             _dateOfCreate = DateTime.Now;
@@ -34,6 +34,8 @@ namespace Models
         {
             get { return _status; }            
         }
+
+
 
     }
 }

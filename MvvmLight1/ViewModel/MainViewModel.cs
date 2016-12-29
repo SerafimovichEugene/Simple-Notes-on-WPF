@@ -1,6 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using MvvmLight1.Model;
+﻿using MvvmLight1.Model;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Data.Entity;
@@ -205,10 +203,6 @@ namespace MvvmLight1.ViewModel
 
 
 
-        public override void Cleanup()
-        {
-            base.Cleanup();
-        }
-
+      
     }
 }

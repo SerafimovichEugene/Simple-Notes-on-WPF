@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace ViewModels
 {
-    class ViewModelMain : ViewModelBase
+    class ViewModelNote
     {
-
     }
 }
