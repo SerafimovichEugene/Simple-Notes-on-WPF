@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Models;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ViewModels
@@ -11,6 +7,7 @@ namespace ViewModels
     class ViewModelNotes : ViewModelBase
     {
         private ObservableCollection<ViewModelNote> _collection;
+        private Notes notes;
         private ViewModelNote _selectedDataItem;
         private int _selectedIndex;
 
@@ -23,7 +20,7 @@ namespace ViewModels
 
         public ViewModelNotes()
         {
-
+            notes = new Notes();
         }
         public int SelectedIndex
         {
@@ -37,7 +34,6 @@ namespace ViewModels
         {
             get { return _collection; }
         }
-
         public ViewModelNote SelectedDataItem
         {
             get
