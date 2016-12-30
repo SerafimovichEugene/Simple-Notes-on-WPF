@@ -50,6 +50,7 @@
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{50078b98-ed2f-49bb-8f67-f53e9773b1c1}</Project>
       <Name>Models</Name>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

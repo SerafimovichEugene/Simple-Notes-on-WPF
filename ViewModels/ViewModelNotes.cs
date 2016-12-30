@@ -21,6 +21,7 @@ namespace ViewModels
         public ViewModelNotes()
         {
             notes = new Notes();
+            _collection = notes.ListOfNotes;
         }
         public int SelectedIndex
         {

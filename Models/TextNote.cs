@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace Models
 {
@@ -18,10 +14,7 @@ namespace Models
         public string Note
         {
             get { return _note; }
-            set { _note=value;}
+            set { _note = value; }
         }
-        
-
-
     }
 }

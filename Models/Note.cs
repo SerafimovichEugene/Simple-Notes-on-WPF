@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Models
 {
     public abstract class Note
     {
+        
         private Guid _guid;
         private DateTime _dateOfCreate;
         private string _title;        
@@ -17,6 +19,7 @@ namespace Models
             _status = status;
         }
 
+        [Key]
         public Guid Guid
         {
             get { return _guid; }
