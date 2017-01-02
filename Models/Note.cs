@@ -35,7 +35,8 @@ namespace Models
         }
         public int Status
         {
-            get { return _status; }            
+            get { return _status; }
+            set { _status = value; }
         }
 
 

@@ -1,24 +1,38 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace Models
 {
     public class Notes
     {
-        private ObservableCollection<Note> listOfNotes;
-        private string ConnectionString;
+        private List<TextNote> listOfNotes;
+        private static string ConnectionString;
+        private static NotesContext context;
         public Notes()
         {
-            listOfNotes = new ObservableCollection<Note>();
+            ConnectionString = "Notes.sdf";
+            LoadCollection();
         }
-        public ObservableCollection<Note> ListOfNotes
+        public List<TextNote> ListOfNotes
         {
-            get { return listOfNotes; }            
+            get { return listOfNotes; }
+        }
+        private void LoadCollection()
+        {
+            using (context = new NotesContext(ConnectionString))
+            {
+                listOfNotes = new List<TextNote>(context.MyNotes.ToList());
+            }
         }
 
         public void GetNotes()
         {
-            
-        }
 
+        }
+        public void AddNote()
+        {
+            listOfNotes.Add(new TextNote("Title here", 1));
+        }
     }
 }

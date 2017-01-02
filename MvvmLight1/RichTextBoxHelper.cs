@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Markup;
 
-namespace MvvmLight1
+namespace Views
 {
     public class RichTextBoxHelper : DependencyObject
     {

@@ -1,16 +1,14 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
-namespace MvvmLight1
+namespace Views
 {
     public partial class MainWindow : Window
     {
-
-
         public MainWindow()
         {
             InitializeComponent();
         }
-
-
+       
     }
 }

@@ -21,7 +21,11 @@ namespace ViewModels
         public ViewModelNotes()
         {
             notes = new Notes();
-            _collection = notes.ListOfNotes;
+            //_collection = new ObservableCollection<ViewModelNote>(notes.ListOfNotes);            
+        }
+        private void InitializeCollection()
+        {
+
         }
         public int SelectedIndex
         {

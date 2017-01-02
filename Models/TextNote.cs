@@ -2,7 +2,7 @@
 
 namespace Models
 {
-    class TextNote : Note
+    public class TextNote : Note
     {
         private string _note;
         public TextNote(string title, int status) : base(title, status)

@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using GalaSoft.MvvmLight.Threading;
 
 namespace MvvmLight1
 {
@@ -10,7 +9,7 @@ namespace MvvmLight1
     {
         static App()
         {
-            DispatcherHelper.Initialize();            
+                      
         }
     }
 }
