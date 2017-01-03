@@ -3,7 +3,7 @@ using System;
 
 namespace ViewModels
 {
-    class ViewModelNote
+    public class ViewModelNote : ViewModelBase 
     {
         private TextNote _note;
 
@@ -18,7 +18,7 @@ namespace ViewModels
         {
             get { return _note.DateOfCreate; }
         }
-        public string Title
+        public string TitleVM
         {
             get { return _note.Title; }
             set { _note.Title = value; }

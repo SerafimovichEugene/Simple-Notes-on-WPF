@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace ViewModels
 {
-    class ViewModelNotes : ViewModelBase
+    public class ViewModelNotes : ViewModelBase
     {
         private ObservableCollection<ViewModelNote> _collection;
         private Notes notes;
@@ -21,12 +21,9 @@ namespace ViewModels
         public ViewModelNotes()
         {
             notes = new Notes();
-            //_collection = new ObservableCollection<ViewModelNote>(notes.ListOfNotes);            
-        }
-        private void InitializeCollection()
-        {
-
-        }
+            InitializeCollection();
+            InitializeCommands();
+        }         
         public int SelectedIndex
         {
             get { return _selectedIndex; }
@@ -55,7 +52,26 @@ namespace ViewModels
             }
         }
 
-        
+        private void InitializeCollection()
+        {
+            _collection = new ObservableCollection<ViewModelNote>();
+            foreach (var item in notes.ListOfNotes)
+            {
+                _collection.Add(new ViewModelNote(item));
+            }
+        }
+
+        private void InitializeCommands()
+        {
+            AddCommand = new RelayCommand(AddNote);
+        }
+
+        private void AddNote(object obj)
+        {
+            TextNote tempNote = new TextNote("Title here", 1);
+            _collection.Add(new ViewModelNote(tempNote));
+            notes.AddNote(tempNote);
+        }
 
 
     }

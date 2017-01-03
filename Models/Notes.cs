@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace Models
 {
     public class Notes
     {
-        private List<TextNote> listOfNotes;
+        private List<Note> listOfNotes;
         private static string ConnectionString;
         private static NotesContext context;
         public Notes()
@@ -14,7 +15,7 @@ namespace Models
             ConnectionString = "Notes.sdf";
             LoadCollection();
         }
-        public List<TextNote> ListOfNotes
+        public List<Note> ListOfNotes
         {
             get { return listOfNotes; }
         }
@@ -22,7 +23,16 @@ namespace Models
         {
             using (context = new NotesContext(ConnectionString))
             {
-                listOfNotes = new List<TextNote>(context.MyNotes.ToList());
+
+                if (File.Exists("Notes.sdf"))
+                {
+                    IQueryable<TextNote> query = from b in context.MyNotes.OfType<TextNote>()
+                                                 select b;
+                    listOfNotes = new List<Note>(query);
+                }
+                    
+                else
+                    listOfNotes = new List<Note>();
             }
         }
 
@@ -30,9 +40,9 @@ namespace Models
         {
 
         }
-        public void AddNote()
+        public void AddNote(Note note)
         {
-            listOfNotes.Add(new TextNote("Title here", 1));
+            listOfNotes.Add(note);
         }
     }
 }
