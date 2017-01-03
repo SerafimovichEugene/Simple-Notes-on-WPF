@@ -2,9 +2,11 @@
 
 namespace Models
 {
-    class NotesContext : DbContext
+    public class NotesContext : DbContext
     {
+        public NotesContext() { }
         public NotesContext(string NameOrConnectionString) : base(NameOrConnectionString) { }
-        public DbSet<TextNote> MyNotes { get; set; }
+        public DbSet<Note> MyNotes { get; set; }
+        public DbSet<TextNote> MyTextNotes { get; set; }
     }
 }

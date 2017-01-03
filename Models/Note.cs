@@ -5,28 +5,23 @@ namespace Models
 {
     public abstract class Note
     {
-        
-        private Guid _guid;
+
         private DateTime _dateOfCreate;
-        private string _title;        
+        private string _title;
         private int _status;
 
         public Note(string title, int status)
         {
-            _guid = Guid.NewGuid();
+
             _dateOfCreate = DateTime.Now;
             _title = title;
             _status = status;
         }
-
-        [Key]
-        public Guid Guid
-        {
-            get { return _guid; }
-        }
+        public int NoteId { get; set; }
         public DateTime DateOfCreate
         {
-            get { return _dateOfCreate; }            
+            get { return _dateOfCreate; }
+            set { _dateOfCreate = value; }
         }
         public string Title
         {

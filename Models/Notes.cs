@@ -2,6 +2,9 @@
 using System.Linq;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Data.Entity;
+using System;
+using System.Windows;
 
 namespace Models
 {
@@ -26,13 +29,15 @@ namespace Models
 
                 if (File.Exists("Notes.sdf"))
                 {
-                    IQueryable<TextNote> query = from b in context.MyNotes.OfType<TextNote>()
-                                                 select b;
-                    listOfNotes = new List<Note>(query);
+                    //IQueryable<TextNote> query = from b in context.MyTextNotes.OfType<TextNote>()
+                    //                             select b;
+                    List<TextNote> list = new List<TextNote>(context.MyTextNotes.ToList()); 
+                    listOfNotes = new List<Note>(list);
                 }
                     
                 else
                     listOfNotes = new List<Note>();
+                int x = 0;
             }
         }
 
@@ -43,6 +48,25 @@ namespace Models
         public void AddNote(Note note)
         {
             listOfNotes.Add(note);
+        }
+        public void SaveNotes()
+        {
+            //try
+            //{
+                using (context = new NotesContext(ConnectionString))
+                {
+                    foreach (var item in listOfNotes)
+                    {
+                        context.MyTextNotes.Add(item as TextNote);
+                        context.Entry(item as TextNote).State = EntityState.Modified;
+                    }
+                    context.SaveChanges();
+                }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
         }
     }
 }

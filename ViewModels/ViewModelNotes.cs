@@ -64,13 +64,18 @@ namespace ViewModels
         private void InitializeCommands()
         {
             AddCommand = new RelayCommand(AddNote);
+            SaveCommand = new RelayCommand(SaveNotes);
         }
 
         private void AddNote(object obj)
         {
             TextNote tempNote = new TextNote("Title here", 1);
-            _collection.Add(new ViewModelNote(tempNote));
             notes.AddNote(tempNote);
+            _collection.Add(new ViewModelNote(tempNote));            
+        }
+        private void SaveNotes(object obj)
+        {
+            notes.SaveNotes();
         }
 
 

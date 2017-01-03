@@ -68,7 +68,7 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <DockPanel Background="LightGreen">
-                            <ComboBox SelectedIndex="{Binding Status, Mode=TwoWay, 
+                            <ComboBox SelectedIndex="{Binding StatusVM, Mode=TwoWay, 
                                                               UpdateSourceTrigger=PropertyChanged}"                                      
                                       Name="cmbBox1"
                                       HorizontalAlignment="Left"
@@ -142,18 +142,18 @@
                          Text="{Binding SelectedDataItem.TitleVM, Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                           Text="{Binding SelectedDataItem.DateOfCreate,
+                           Text="{Binding SelectedDataItem.DateOfCreateVM,
                                           UpdateSourceTrigger=PropertyChanged}"/>
                 <RichTextBox Name="richTextBox"
-                             local:RichTextBoxHelper.DocumentXaml="{Binding SelectedDataItem.Note, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             Height="auto"
-                             >
+                             local:RichTextBoxHelper.DocumentXaml="{Binding SelectedDataItem.NoteVM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Height="auto">
                     <RichTextBox.Resources>
                         <Style TargetType="{x:Type Paragraph}">
                             <Setter Property="Margin" Value="0"/>
                         </Style>
                     </RichTextBox.Resources>
                 </RichTextBox>
+                
                 <Button x:Name="addButton"
                         HorizontalAlignment="Left" VerticalAlignment="Bottom"
                         Content="AddNote" 
