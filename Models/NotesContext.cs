@@ -6,7 +6,6 @@ namespace Models
     {
         public NotesContext() { }
         public NotesContext(string NameOrConnectionString) : base(NameOrConnectionString) { }
-        public DbSet<Note> MyNotes { get; set; }
-        public DbSet<TextNote> MyTextNotes { get; set; }
+        public DbSet<Note> MyNotes { get; set; }        
     }
 }

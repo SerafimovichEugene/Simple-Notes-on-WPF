@@ -13,10 +13,9 @@ namespace ViewModels
 
         public ICommand AddCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
-        public ICommand LoadCommand { get; private set; }
-        public ICommand InitConnectionString { get; private set; }
+        //public ICommand LoadCommand { get; private set; }
+        //public ICommand InitConnectionString { get; private set; }
         public ICommand DeleteNoteCommand { get; private set; }
-
 
         public ViewModelNotes()
         {
@@ -65,19 +64,24 @@ namespace ViewModels
         {
             AddCommand = new RelayCommand(AddNote);
             SaveCommand = new RelayCommand(SaveNotes);
+            DeleteNoteCommand = new RelayCommand(DeleteNote);
         }
 
         private void AddNote(object obj)
         {
-            TextNote tempNote = new TextNote("Title here", 1);
+            Note tempNote = new Note("Title here", 1);
             notes.AddNote(tempNote);
             _collection.Add(new ViewModelNote(tempNote));            
         }
-        private void SaveNotes(object obj)
+        public void SaveNotes(object obj)
         {
             notes.SaveNotes();
         }
-
+        private void DeleteNote(object obj)
+        {
+            notes.ListOfNotes.Remove(_collection[SelectedIndex].ModelNote);
+            _collection.Remove(_collection[SelectedIndex]);
+        }
 
     }
 }

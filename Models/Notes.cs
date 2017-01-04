@@ -29,44 +29,49 @@ namespace Models
 
                 if (File.Exists("Notes.sdf"))
                 {
-                    //IQueryable<TextNote> query = from b in context.MyTextNotes.OfType<TextNote>()
-                    //                             select b;
-                    List<TextNote> list = new List<TextNote>(context.MyTextNotes.ToList()); 
+                    var list = new List<Note>(context.MyNotes.ToList());
                     listOfNotes = new List<Note>(list);
                 }
-                    
+
                 else
                     listOfNotes = new List<Note>();
-                int x = 0;
             }
         }
-
-        public void GetNotes()
-        {
-
-        }
-        public void AddNote(Note note)
+        public async void AddNote(Note note)
         {
             listOfNotes.Add(note);
+            using (context = new NotesContext(ConnectionString))
+            {
+                context.MyNotes.Add(note);
+                await context.SaveChangesAsync();
+            }
         }
-        public void SaveNotes()
+        public async void SaveNotes()
         {
-            //try
-            //{
+            try
+            {
                 using (context = new NotesContext(ConnectionString))
                 {
                     foreach (var item in listOfNotes)
                     {
-                        context.MyTextNotes.Add(item as TextNote);
-                        context.Entry(item as TextNote).State = EntityState.Modified;
+                        context.MyNotes.Add(item);
+                        context.Entry(item).State = EntityState.Modified;
                     }
-                    context.SaveChanges();
+                    await context.SaveChangesAsync();
                 }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        public async void DeleteNote(int index)
+        {
+            using (context = new NotesContext(ConnectionString))
+            {
+                context.MyNotes.Remove(listOfNotes[index]);
+                
+            }
         }
     }
 }
