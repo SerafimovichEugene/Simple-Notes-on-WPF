@@ -5,6 +5,7 @@ using System.IO;
 using System.Data.Entity;
 using System;
 using System.Windows;
+using System.Data.Entity.Infrastructure;
 
 namespace Models
 {
@@ -48,29 +49,43 @@ namespace Models
         }
         public async void SaveNotes()
         {
-            try
+            bool SavedFailed;
+            using (context = new NotesContext(ConnectionString))
             {
-                using (context = new NotesContext(ConnectionString))
+                foreach (var item in listOfNotes)
                 {
-                    foreach (var item in listOfNotes)
-                    {
-                        context.MyNotes.Add(item);
-                        context.Entry(item).State = EntityState.Modified;
-                    }
-                    await context.SaveChangesAsync();
+                    context.MyNotes.Attach(item);
+                    context.Entry(item).State = EntityState.Modified;
                 }
+                do
+                {
+                    SavedFailed = false;
+                    try
+                    {
+                        await context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        SavedFailed = true;
+                        ex.Entries.Single().Reload();
+                        //MessageBox.Show(ex.Message);
+                    }
+                } while (SavedFailed);
+
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+
+
         }
-        public async void DeleteNote(int index)
+        public async void DeleteNote(Guid guid)
         {
             using (context = new NotesContext(ConnectionString))
             {
-                context.MyNotes.Remove(listOfNotes[index]);
-                
+                var NoteToRemove = await (from d in context.MyNotes
+                                          where d.Id == guid
+                                          select d).SingleAsync();
+                context.MyNotes.Remove(NoteToRemove);
+                listOfNotes.Remove(NoteToRemove);
+                await context.SaveChangesAsync();
             }
         }
     }

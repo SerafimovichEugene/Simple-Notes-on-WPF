@@ -10,7 +10,6 @@ namespace ViewModels
         private DateTime _dateOfCreate;
         private int _status;
         private string _noteBody;
-
         public ViewModelNote(Note note)
         {
             _note = note;

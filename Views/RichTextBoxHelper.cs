@@ -41,20 +41,16 @@ namespace Views
                         return;
 
                     var richTextBox = (RichTextBox)obj;
-
                     // Parse the XAML to a document (or use XamlReader.Parse())
-
                     try
                     {
-
                         using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(GetDocumentXaml(richTextBox))))
                         {
                             var doc = XamlReader.Load(stream) as FlowDocument;
 
                             // Set the document
                             richTextBox.Document = doc;
-                        } 
-                       
+                        }                        
                     }
                     catch (Exception)
                     {
@@ -66,7 +62,6 @@ namespace Views
                         //}
                         
                     }
-
                     // When the document changes update the source
                     richTextBox.TextChanged += (obj2, e2) =>
                          {

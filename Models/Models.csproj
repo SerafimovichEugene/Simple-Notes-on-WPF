@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GuidComb.cs" />
     <Compile Include="Note.cs" />
     <Compile Include="NotesContext.cs" />
     <Compile Include="Notes.cs" />

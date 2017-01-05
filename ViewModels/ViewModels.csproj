@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\MainViewModel.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="ViewModelNotes.cs" />
     <Compile Include="Helpers\ViewModelBase.cs" />

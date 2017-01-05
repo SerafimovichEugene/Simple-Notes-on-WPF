@@ -12,11 +12,8 @@ namespace ViewModels
         private int _selectedIndex;
 
         public ICommand AddCommand { get; private set; }
-        public ICommand SaveCommand { get; private set; }
-        //public ICommand LoadCommand { get; private set; }
-        //public ICommand InitConnectionString { get; private set; }
+        public ICommand SaveCommand { get; private set; }     
         public ICommand DeleteNoteCommand { get; private set; }
-
         public ViewModelNotes()
         {
             notes = new Notes();
@@ -79,7 +76,7 @@ namespace ViewModels
         }
         private void DeleteNote(object obj)
         {
-            notes.ListOfNotes.Remove(_collection[SelectedIndex].ModelNote);
+            notes.DeleteNote(_collection[SelectedIndex].ModelNote.Id);
             _collection.Remove(_collection[SelectedIndex]);
         }
 
