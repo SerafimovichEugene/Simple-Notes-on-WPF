@@ -81,22 +81,7 @@
                             </ComboBox>
                             <TextBlock Text="{Binding TitleVM, UpdateSourceTrigger=PropertyChanged}"
                                        HorizontalAlignment="Left"/>
-                            
-                            <!--<ContentControl Content="{Binding CurrentListHasPendingChanges}">
-                                <ContentControl.ContentTemplate>
-                                    <DataTemplate>
-                                        <Image x:Name="img" Source="..\Images\List_16.png" Margin="0,0,5,0" Visibility="Hidden" />
-                                        <DataTemplate.Triggers>
-                                            <DataTrigger Binding="{Binding}" Value="False">
-                                                <Setter Property="Image.Visibility" Value="Visible" />
-                                            </DataTrigger>
-                                        </DataTemplate.Triggers>
-                                    </DataTemplate>
-                                </ContentControl.ContentTemplate>
-                            </ContentControl>-->
-                            
-                            <Button Name="DeleteNote"  
-                                    
+                            <Button Name="DeleteNote"                                   
                                     HorizontalAlignment="Right" VerticalAlignment="Stretch"
                                     Width="20" Height="20"
                                     Content="X"                                    
@@ -105,10 +90,10 @@
                                 <Button.Style>
                                     <Style TargetType="Button">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsVisible}" Value="True" >
+                                            <DataTrigger Binding="{Binding IsAbleToDelete}" Value="True" >
                                                 <Setter Property="Visibility" Value="Visible"/>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding IsVisible}" Value="False" >
+                                            <DataTrigger Binding="{Binding IsAbleToDelete}" Value="False" >
                                                 <Setter Property="Visibility" Value="Collapsed"/>
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -162,17 +147,7 @@
                         HorizontalAlignment="Left" VerticalAlignment="Bottom"
                         Content="save" 
                         Width="75" Height="20"                    
-                        Command="{Binding SaveCommand}"/>
-                <!--<Button x:Name="Loadbutton" Content="Load"
-                        HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                        Width="75" Height="20"  
-                        Command="{Binding LoadCommand}"/>
-                <Button x:Name="find_DB" 
-                        HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                        Content="find DB"
-                        Width="75" Height="20"   
-                        Command="{Binding InitConnectionString}"/>-->
-                
+                        Command="{Binding SaveCommand}"/>             
 
             </StackPanel>
         </Grid>

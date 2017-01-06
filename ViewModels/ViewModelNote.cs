@@ -10,6 +10,7 @@ namespace ViewModels
         private DateTime _dateOfCreate;
         private int _status;
         private string _noteBody;
+        private bool isAbleToDelete;
         public ViewModelNote(Note note)
         {
             _note = note;
@@ -17,6 +18,7 @@ namespace ViewModels
             _dateOfCreate = note.DateOfCreate;
             _status = note.Status;
             _noteBody = _note.NoteBody;
+            IsAbleToDelete = false;
         }
         public Note ModelNote
         {
@@ -59,7 +61,11 @@ namespace ViewModels
                 Set(ref _noteBody, value);
             }
         }
-
+        public bool IsAbleToDelete
+        {
+            get { return isAbleToDelete; }
+            set { Set(ref isAbleToDelete, value); }
+        }
 
     }
 }
